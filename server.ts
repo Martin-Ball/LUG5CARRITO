@@ -1,10 +1,10 @@
-import dotenv from "dotenv";
-// carga las variables de entorno para poder leerlas accediendo a process.env["variable"]
-dotenv.config();
-
 import express, { Express } from "express";
 import mongoose from "mongoose";
 import apiRoutes from "./routes/api";
+import dotenv from "dotenv"
+
+// carga las variables de entorno para poder leerlas accediendo a process.env["variable"]
+dotenv.config()
 
 // inicializa la clase que nos permite crear el servidor.
 const app: Express = express();

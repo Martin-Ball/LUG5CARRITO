@@ -1,17 +1,19 @@
 import { Router } from "express";
-import { blogController } from "../../../controllers/blog";
+import { cartController } from "../../../controllers/cart";
 
 // se instancia un nuevo router el cual se utilizara para nestear rutas.
 const router = Router();
 // cuando la url coincida con esta ruta, se ejecuta el codigo dentro de la funcion.
 // en este caso la url deberia ser --> localhost:PORT/api/blogs/ con un metodo GET.
-router.get("/listBlogs", blogController.listBlogs);
+router.get("/newCart", cartController.newCart);
 
-router.post("/newBlog", blogController.newBlog);
+router.post("/addProduct", cartController.addProduct);
 
-router.post("/deleteBlog", blogController.deleteComment);
+router.post("/reduceProduct", cartController.reduceProduct);
 
-router.patch("/addComment", blogController.addComment)
+router.post("/setAmount", cartController.setAmount);
+
+router.patch("/buyCart", cartController.buyCart)
 
 //router.post("/newBlog", blogController.post)
 

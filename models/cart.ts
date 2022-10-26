@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 // declaro la estructura que va a tener mi esquema/documento/tabla.
 const cartSchema = new Schema({
   product: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+  amount: Number,
   status: String,
   total: Number
 });
