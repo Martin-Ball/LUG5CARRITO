@@ -5,6 +5,12 @@ import cart from "../models/cart";
 export const cartController = {
 
     newCart: async (req:Request, res:Response) => {
+      const newCart = new cart({...req.body})
+      newCart.save()
+      res.send(newCart)  
+    },
+
+    getCart: async (req:Request, res:Response) => {
 
     },
 
