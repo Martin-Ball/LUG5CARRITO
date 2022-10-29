@@ -16,6 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 // Agrega una ruta a la cual se accede a traves de localhost:PORT/api
 app.use("/api", apiRoutes);
 
+app.get('*', function(req, res){
+  res.status(404).send('Error, not found path');
+});
+
 // Levanta el server y escucha en el puerto que se guardo en la variable de entorno PORT
 app.listen(process.env.PORT, () => {
   console.log(`Server is up and running at port ${process.env.PORT}`);

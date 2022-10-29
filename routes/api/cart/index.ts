@@ -9,15 +9,20 @@ router.post("/newCart", cartController.newCart);
 
 router.get("/getCart", cartController.getCart);
 
+router.get("/getAllCarts", cartController.getAllCarts);
+
 router.post("/addProduct", cartController.addProduct);
 
-router.post("/reduceProduct", cartController.reduceProduct);
+router.post("/deleteProduct", cartController.deleteProduct);
 
-router.post("/setAmount", cartController.setAmount);
+router.patch("/moreProduct", cartController.moreProduct);
 
-router.patch("/buyCart", cartController.buyCart)
+router.patch("/lessProduct", cartController.lessProduct);
 
-//router.post("/newBlog", blogController.post)
+router.patch("/setAmount", cartController.setAmount);
+
+router.post("/buyCart", cartController.buyCart)
+
 
 // se exporta el router para poder enlazarlo con las rutas que estan dentro de /api.
 export default router;

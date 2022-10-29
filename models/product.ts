@@ -4,9 +4,9 @@ import { Schema, model } from "mongoose";
 const productSchema = new Schema({
   name: String,  
   price: Number,
-  desc: Number,
+  desc: String,
   stock: Number,
-  providerID: [{ type: Schema.Types.ObjectId, ref: "providerID" }]
+  provider: { type: Schema.Types.ObjectId, ref: "Provider" },
 });
 // exporto mi modelo, el cual me permite acceder a los metodos de la bd.
 export default model("Product", productSchema);

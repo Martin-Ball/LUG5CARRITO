@@ -7,7 +7,7 @@ const router = Router();
 // en este caso la url deberia ser --> localhost:PORT/api/blogs/ con un metodo GET.
 router.post("/newProvider", providerController.newProvider);
 
-router.get("/getProviders", providerController.getAllProviders);
+router.get("/getProvider", providerController.getAllProviders);
 
 // se exporta el router para poder enlazarlo con las rutas que estan dentro de /api.
 export default router;
