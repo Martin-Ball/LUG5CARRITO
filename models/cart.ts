@@ -6,8 +6,8 @@ const cartSchema = new Schema({
     product: {type: Schema.Types.ObjectId, ref: "Product"},
     amount: {type: Number, default: 0} 
   }],
-  status: String,
-  total: Number
+  status: {type: String, default: 'New'},
+  total: {type: Number, default: 0}
 });
 // exporto mi modelo, el cual me permite acceder a los metodos de la bd.
 export default model("Cart", cartSchema);

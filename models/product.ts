@@ -5,7 +5,7 @@ const productSchema = new Schema({
   name: String,  
   price: Number,
   desc: String,
-  stock: Number,
+  stock: {type: Number, default: 0},
   provider: { type: Schema.Types.ObjectId, ref: "Provider" },
 });
 // exporto mi modelo, el cual me permite acceder a los metodos de la bd.

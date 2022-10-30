@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import cart from "../models/cart";
 import product from "../models/product"
-import detail from "../models/detail"
 
 
 export const cartController = {
@@ -62,6 +61,11 @@ export const cartController = {
             "amount" : 0
           }
           productID.products.push(newProduct)
+
+          if(productID.status == 'New'){
+            productID.status = 'InProgress'
+          }
+
           productID.save()
           res.send(productID)
         }
@@ -73,15 +77,20 @@ export const cartController = {
 
     deleteProduct: async (req:Request, res:Response) => {
 
-      cart.findOneAndRemove({_id: req.body.idCart}, req.body, function(err,data){
-        
-        if(!err){
-            console.log("Deleted");
+      cart.findById(req.body.idCart)
+      .then((cartData) => {
+
+        if(!cartData){
+          return res.status(404).send()
         }else{
-          res.send(data)
+          cartData?.products.splice(req.body.idDeleteProduct, 1)
+          cartData.save()
+          res.send(cartData)
         }
-        });
-      
+        
+      }).catch((err) => {
+        res.status(500).send(err)
+      })      
     },
 
     moreProduct: async (req:Request, res:Response) => {
@@ -136,8 +145,8 @@ export const cartController = {
     },
 
     buyCart: async (req:Request, res:Response) => {
-      cart.findById(req.body.idCart)
 
+      cart.findById(req.body.idCart)
       .then((productID) => {
         if(!productID){
           return res.status(404).send()
@@ -145,18 +154,30 @@ export const cartController = {
           productID.products.forEach( productFind => {
             const id = productFind.product?.toString()
             const amount = productFind.amount
-            console.log(`PRODUCTO: ${id}`)
 
-            product.find({id})
-            .then((productID2) => {
-              const detailID = productID2.map( id => {
-                console.log(`DETALLE: ${id.detail?.toString()}`)
-              })
+            product.findById(id)
+            .then((getStock) => {
+              const stock = getStock?.stock
+              
+              if(stock && stock.valueOf() < amount?.valueOf()){
+                console.log(`PRODUCT: ${stock}, STOCK: ${stock}, AMOUNT: ${amount}`)
+                return res.status(500).send({message: `Error: el producto ${getStock.desc} tiene stock ${stock} y se quiere comprar ${amount} unidades`})
+              }else{
+                if(stock){
+                  getStock.stock = stock - amount               
+                  getStock?.save()
+                }
+                
+              }
             })
-
           })
-          // productID.status = 'Bought'
-          // productID.save()
+          
+          productID.status = 'Bought'
+
+          productID.products.forEach((amount) =>{
+            amount.amount = 0
+          })
+          productID.save()
           res.send(productID)
         }
         

@@ -12,7 +12,6 @@ export const productsController = {
 
     getAllProducts: async (req:Request, res:Response) => {
         product.find()
-        .populate('detail')
         .then((product) => {
             if(!product){
                 return res.status(404).send()
