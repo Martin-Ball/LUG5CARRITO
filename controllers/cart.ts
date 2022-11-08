@@ -160,29 +160,31 @@ export const cartController = {
             const amount: number = productFind.amount
 
             const productFound = await product.findById(id)
+
             const stock = productFound?.stock
             if (stock && stock.valueOf() < amount?.valueOf()) {
               console.log(`PRODUCT: ${stock}, STOCK: ${stock}, AMOUNT: ${amount}`)
               return res.status(500).send({ message: `Error: el producto ${productFound.desc} tiene stock ${stock} y se quiere comprar ${amount} unidades` })
             } else {
-              if (stock && productFound.price) {
+              if (stock && productFound?.price) {
                 productFound.stock = stock - amount
                 total += amount * productFound.price
                 await productFound?.save()
               }
             }
+            
             cartFound.total = total
             cartFound.status = 'Bought'
 
-            /*cartFound.products.forEach((amount) =>{
+            cartFound.products.forEach((amount) =>{
               amount.amount = 0
-            })*/
+            })
+
             await cartFound.save()
             res.send(cartFound)
             console.log(total)
+
           })
-
-
 
         }
 
