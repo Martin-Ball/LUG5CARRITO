@@ -169,7 +169,7 @@ export const cartController = {
               if (stock && productFound?.price) {
                 productFound.stock = stock - amount
                 total += amount * productFound.price
-                await productFound?.save()
+                
               }
             }
             
@@ -180,9 +180,22 @@ export const cartController = {
               amount.amount = 0
             })
 
-            await cartFound.save()
-            res.send(cartFound)
-            console.log(total)
+            const promise = new Promise(() => {
+              productFound?.save()
+            })
+
+            promise.then(() =>{
+              cartFound.save()
+            })
+
+            try {
+              
+              res.send(cartFound)
+              console.log(total)
+            } catch (error) {
+              console.log(error)
+            }
+            
 
           })
 
