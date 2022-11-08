@@ -188,17 +188,13 @@ export const cartController = {
               cartFound.save()
             })
 
-            try {
-              
+            try {   
               res.send(cartFound)
               console.log(total)
             } catch (error) {
               console.log(error)
             }
-            
-
           })
-
         }
 
       }).catch((err) => {
